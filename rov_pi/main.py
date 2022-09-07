@@ -1,6 +1,5 @@
 #script for rov pi
 #tested on my pc ONLY
-from email import message
 import socket,json
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
