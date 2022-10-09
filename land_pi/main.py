@@ -7,7 +7,7 @@ then send over json data from controller_inputs.py
 
 json key: axis are -500/500, buttons are true/false
 
-by myrccar a.k.a sami j
+by myrccar
 '''
 import socket
 import time
