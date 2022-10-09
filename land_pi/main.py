@@ -13,12 +13,18 @@ import socket
 import time
 import json
 import sys
-from custom_imports.controller_input import controller
+from custom_imports.controller_input import Controller
 
 def quit():
     if input("quti?") == "yes":
         return True
     else: return False
+
+controller = Controller()
+
+while True:
+    controller.update()
+    
 
 def socket_func():
     with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
@@ -26,6 +32,9 @@ def socket_func():
         s.listen(1)
 
         while True:
+            controller.update()
+            if quit():
+                return
 
             clientSocket, address = s.accept()
             try:
