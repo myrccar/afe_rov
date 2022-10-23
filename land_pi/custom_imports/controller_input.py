@@ -37,7 +37,7 @@ class Controller:
             "0-0-0":"self.L_X_axis",
             "0-0-1":"self.L_Y_axis",
             "0-0-2":"self.R_X_axis",
-            "0-0-3":"self.R_X_axis",
+            "0-0-3":"self.R_Y_axis",
             #buttons
             "1-0-3":"self.p1_start",
             "1-0-0":"self.p1_slect",
