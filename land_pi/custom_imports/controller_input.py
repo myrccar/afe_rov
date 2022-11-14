@@ -15,31 +15,18 @@ class Controller:
         pygame.init()
         pygame.joystick.init()
         self.joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-        print(self.joysticks)
 
-        #axis R/L_X/Y_axis
-        self.L_X_axis = 0
-        self.L_Y_axis = 0
-        self.R_X_axis = 0
-        self.R_Y_axis = 0
-        #buttons controler(p1/p2)_btutton name
-        self.p1_start = False
-        self.p1_dpad_up = False
-        self.p1_dapd_right = False
-        self.p1_dpad_left = False
-        self.p1_dpad_down = False
 
-    def update(self):
         #joystick/button map to var
         #keys are <type 0 == axis/1 == button>-<controller number>-<button number>
-        self.map = {
+        self.controller_map = {
             #axis
-            "0-0-0":"self.L_X_axis",
+            "0-0-0":"L_X_axis",
             "0-0-1":"self.L_Y_axis",
             "0-0-2":"self.R_X_axis",
             "0-0-3":"self.R_Y_axis",
             #buttons
-            "1-0-3":"self.p1_start",
+            "1-0-3":"p1_start",
             "1-0-0":"self.p1_slect",
             "1-0-4":"self.p1_dpad_up",
             "1-0-5":"self.p1_dpad_right",
@@ -47,16 +34,25 @@ class Controller:
             "1-0-6":"self.p1_dpad_down"
 
         }
+
+        self.controller_values = {
+            "L_X_axis":0,
+            "p1_start":False
+        }
+
+
+    def update(self):
         #pygame update loop
         for event in pygame.event.get():
             if event.type == JOYBUTTONDOWN:
                 try:
-                    exec(self.map[f"1-{event.joy}-{event.button}"]+ " = True")
+                    self.controller_values[self.controller_map[f"1-{event.joy}-{event.button}"]] = True
+
                 except:
                     print("un-known button?")
             if event.type == JOYBUTTONUP:
                 try:
-                    exec(self.map[f"1-{event.joy}-{event.button}"]+ " = False")
+                    self.controller_values[self.controller_map[f"1-{event.joy}-{event.button}"]] = False
                 except:
                     print("un-known button?")
             if event.type == JOYAXISMOTION:
@@ -66,9 +62,16 @@ class Controller:
                     print("un-known axis?")
             #print(event)
     
+    def get_value(self,value_name):
+        return self.controller_values[str(value_name)]
 
     def convert_range(self,value,old_max,old_min,new_max,new_min):
         return int((((value - old_min) * (new_max - new_min)) / (old_max - old_min)) + new_min)
 
+if __name__ == "__main__":
+    controller = Controller()
 
+    while True:
+        controller.update()
+        print(controller.get_value("p1_start"))
     

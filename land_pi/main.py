@@ -25,7 +25,7 @@ controller = Controller()
 while True:
     controller.update()
     print(f"{controller.L_X_axis}---{controller.R_Y_axis}---{controller.p1_dpad_up}")
-
+x
 def socket_func():
     with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
         s.bind((socket.gethostname(),6060))
