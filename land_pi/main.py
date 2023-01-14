@@ -5,7 +5,7 @@ tested on my pc only
 this scirpt will connect to the rov_pi with socket
 then send over json data from controller_inputs.py
 
-json key: axis are -500/500, buttons are true/false
+json key: axis are -1.0/-1.0, buttons are true/false
 
 by myrccar
 '''
@@ -13,22 +13,19 @@ import socket
 import time
 import json
 import sys
-from custom_imports.controller_input import Controller
+import xbox
 
 def quit():
     if input("quti?") == "yes":
         return True
     else: return False
 
-controller = Controller()
+joy = xbox.controller()
 
-while True:
-    controller.update()
-    print(f"{controller.L_X_axis}---{controller.R_Y_axis}---{controller.p1_dpad_up}")
-x
+
 def socket_func():
     with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
-        s.bind((socket.gethostname(),6060))
+        s.bind(("rov",6060))
         s.listen(1)
 
         while True:
@@ -41,7 +38,7 @@ def socket_func():
                 with clientSocket as c:
                     print(f"connected to {address}")
                     while True:
-                        controller_data = {"x":426,"y":-234,"dpad-up":True}
+                        controller_data = {"x":1.0,"y":-234,"dpad-up":True}
                         controller_data = json.dumps(controller_data)
                         c.sendall(bytes(controller_data,"utf-8"))
                         time.sleep(0.5)

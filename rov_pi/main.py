@@ -3,7 +3,7 @@
 import socket,json
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-s.connect((socket.gethostname(), 6060))
+s.connect(('control', 6060))
 
 while True:
     message = s.recv(2048)
