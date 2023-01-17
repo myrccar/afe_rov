@@ -16,20 +16,17 @@ import sys
 import xbox
 
 def quit():
-    if input("quti?") == "yes":
-        return True
-    else: return False
+    return False
 
-joy = xbox.controller()
+joy = xbox.Joystick()
 
 
 def socket_func():
     with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
-        s.bind(("rov",6060))
+        s.bind(("192.168.0.98",3400))
         s.listen(1)
 
         while True:
-            controller.update()
             if quit():
                 return
 
@@ -59,7 +56,6 @@ def socket_func():
                 print("client fail-ed")
             if quit():
                 return
-
 socket_func()
 print("bye")
 
