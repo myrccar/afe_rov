@@ -7,7 +7,7 @@ GPIO.setmode(GPIO.BOARD)             # choose BCM or ---BOARD(one we use)---
 GPIO.setup(12, GPIO.OUT)
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-s.connect(('192.168.0.99', 6060))
+s.connect(('192.168.0.99', 3400))
 
 try:
     while True:
