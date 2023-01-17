@@ -38,7 +38,18 @@ def socket_func():
                 with clientSocket as c:
                     print(f"connected to {address}")
                     while True:
-                        controller_data = {"x":1.0,"y":-234,"dpad-up":True}
+                        controller_data = {
+                            "axis-0":joy.leftX(),
+                            "axis-1":joy.leftY(),
+                            "axis-2":joy.leftTrigger(),
+                            "axis-3":joy.rightX(),
+                            "axis-4":joy.rightY(),
+                            "axis-5":joy.rightTrigger(),
+                            "button-1":joy.B(),
+                            "button-2":joy.X(),
+                            "button-3":joy.Y(),
+                            "button-0":joy.A()
+                        }
                         controller_data = json.dumps(controller_data)
                         c.sendall(bytes(controller_data,"utf-8"))
                         time.sleep(0.5)
