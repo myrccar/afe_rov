@@ -23,39 +23,40 @@ joy = xbox.Joystick()
 
 def socket_func():
     with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
-        s.bind(("192.168.0.98",3400))
+        s.bind(("192.168.0.98",6060))
         s.listen(1)
+        try:
+            while True:
+                if quit():
+                    return
 
-        while True:
-            if quit():
-                return
+                clientSocket, address = s.accept()
+                try:
+                    with clientSocket as c:
+                        print(f"connected to {address}")
+                        while True:
+                            controller_data = {}
+                            controller_data = {
+                                "axis-0":joy.leftX(),
+                                "axis-1":joy.leftY(),
+                                "axis-2":joy.leftTrigger(),
+                                "axis-3":joy.rightX(),
+                                "axis-4":joy.rightY(),
+                                "axis-5":joy.rightTrigger(),
+                                "button-1":joy.B(),
+                                "button-2":joy.X(),
+                                "button-3":joy.Y(),
+                                "button-0":joy.A()
+                            }
+                            controller_data = json.dumps(controller_data)
+                            c.sendall(bytes(controller_data,"utf-8"))
+                except:
+                    print(f"{address} disconceted, waiting for a new client...")
+                if quit():
+                    return
+        except KeyboardInterrupt:
+            socket.cleanup()
 
-            clientSocket, address = s.accept()
-            try:
-                with clientSocket as c:
-                    print(f"connected to {address}")
-                    while True:
-                        controller_data = {
-                            "axis-0":joy.leftX(),
-                            "axis-1":joy.leftY(),
-                            "axis-2":joy.leftTrigger(),
-                            "axis-3":joy.rightX(),
-                            "axis-4":joy.rightY(),
-                            "axis-5":joy.rightTrigger(),
-                            "button-1":joy.B(),
-                            "button-2":joy.X(),
-                            "button-3":joy.Y(),
-                            "button-0":joy.A()
-                        }
-                        controller_data = json.dumps(controller_data)
-                        c.sendall(bytes(controller_data,"utf-8"))
-                        time.sleep(0.5)
-                        if quit():
-                            return
-            except:
-                print("client fail-ed")
-            if quit():
-                return
+print("control pi running...")
 socket_func()
-print("bye")
 
