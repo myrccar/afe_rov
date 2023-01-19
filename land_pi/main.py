@@ -48,8 +48,8 @@ def socket_func():
                                 "button-3":joy.Y(),
                                 "button-0":joy.A()
                             }
-                            controller_data = json.dumps(controller_data)
-                            c.sendall(bytes(controller_data,"utf-8"))
+                            c.sendall(bytes(str(controller_data),"utf-8"))
+                            ok = s.recv(2048)
                 except:
                     print(f"{address} disconceted, waiting for a new client...")
                 if quit():
