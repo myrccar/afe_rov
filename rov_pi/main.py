@@ -11,10 +11,10 @@ s.connect(('control', 6060))
 
 try:
     while True:
-        s.sendall(b'hello')
         message = s.recv(2048)
         controller_data = json.loads(str(message).strip('b"').split('"')[0].replace("'",'"'))
         print(controller_data)
+        s.sendall(bytes("hi","utf-8"))
 
 except KeyboardInterrupt:
     GPIO.cleanup()
