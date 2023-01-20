@@ -35,6 +35,8 @@ def socket_func():
                     with clientSocket as c:
                         print(f"connected to {address}")
                         while True:
+                            ok = s.recv(2048)
+
                             controller_data = {}
                             controller_data = {
                                 "axis-0":joy.leftX(),
@@ -49,7 +51,6 @@ def socket_func():
                                 "button-0":joy.A()
                             }
                             c.sendall(bytes(str(controller_data),"utf-8"))
-                            ok = s.recv(2048)
                 except:
                     print(f"{address} disconceted, waiting for a new client...")
                 if quit():
